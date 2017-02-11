@@ -3,11 +3,8 @@ package raticator;
 
 public class SimpleBehaviour implements Behaviour {
     private StateChangeCallback myCallback = null;
-
     private RatState currentState;
-
     private float oldY;
-
 
 
     public void setup(StateChangeCallback sc) {
@@ -19,11 +16,10 @@ public class SimpleBehaviour implements Behaviour {
     }
 
 
-
     public void feedEntry (DataNode dn) {
         //System.out.println(dn.y);
 
-        if( oldY - dn.y > 1 || dn.y - oldY > 1) {
+        if( oldY - dn.ypr.y > 1 || dn.ypr.y - oldY > 1) {
             // assume mving
             this.setState(RatState.MOVING);
 
@@ -32,9 +28,9 @@ public class SimpleBehaviour implements Behaviour {
             this.setState(RatState.STATIONARY);
         }
 
-        this.oldY = dn.y;
-
+        this.oldY = dn.ypr.y;
     }
+
 
     private void setState(RatState state) {
         // only action on a state change

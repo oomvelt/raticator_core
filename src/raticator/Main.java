@@ -19,6 +19,14 @@ public class Main {
 
         System.out.println("Eraticator Test Rig - Commandline");
 
+        if(args.length ==0 ) {
+            System.err.println("You must provide at least one argument - the file path of the test data");
+            return;
+        }
+
+        String target = args[0];
+        System.out.println(target);
+
         TestRigCallback trc = new TestRigCallback();
 
         System.out.println("Picking behaviour script and initalising with testrig callback.");
@@ -28,13 +36,14 @@ public class Main {
 
         System.out.println("Picking Data Parser ");
 
-        LineProtocolParser lpp = new vOneParser();
+        //LineProtocolParser lpp = new vOneParser();
+        LineProtocolParser lpp = new vTwoParser();
 
         System.out.println("Behaviour configured with test rig callback...");
 
         System.out.println("Loading Sample file");
 
-        try (BufferedReader br = new BufferedReader(new FileReader("/Users/jt/Desktop/datafile"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(target))) {
             String line;
             while ((line = br.readLine()) != null) {
                 try {
@@ -43,7 +52,7 @@ public class Main {
                     beh.feedEntry(dn);
 
                 } catch (IllegalArgumentException e) {
-                    System.out.println("Ignoring an invalid line");
+                    System.out.println(e.getMessage());
                 }
             }
 
