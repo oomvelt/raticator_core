@@ -27,8 +27,14 @@ public class vTwoParser implements LineProtocolParser {
             throw new IllegalArgumentException("Not a 0.2 line!: " + line);
         }
 
-        DataNode dn = g.fromJson(parts[1], DataNode.class);
-
+        DataNode dn;
+        
+        try {
+            dn = g.fromJson(parts[1], DataNode.class);
+        } catch (Exception e) {
+            // bit naughty to catch all exceptions, but converting them into Illegal Args.
+            throw new IllegalArgumentException("That line didn't seem to convert into a Data Node? '" + parts[1] + "'", e);
+        }
         return dn;
 
     }
